@@ -249,6 +249,9 @@ void obs_callback(u16 sender_id, u8 len, u8 msg[], void* context)
   }
   msg_obs_content_t *obs = (msg_obs_content_t *)(msg + sizeof(msg_obs_header_t));
   for (u8 i=0; i<obs_in_msg; i++) {
+
+    manage_prod_acq(obs[i].prn); /* Flag this as visible/viable to acquisition/search */
+
     if (ephemeris_good(es[obs[i].prn], t)) {
       unpack_obs_content(&obs[i],
         &base_obss_raw.nm[base_obss_raw.n].raw_pseudorange,
